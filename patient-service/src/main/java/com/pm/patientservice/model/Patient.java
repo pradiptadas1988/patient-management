@@ -1,9 +1,12 @@
 package com.pm.patientservice.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
-
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -11,70 +14,71 @@ import java.util.UUID;
 public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID patientId;
+    private UUID id;
 
     @NotNull
-    private String patientName;
+    private String name;
 
     @NotNull
     @Email
     @Column(unique = true)
-    private String patientEmail;
+    private String email;
 
     @NotNull
-    private String patientAddress;
+    private String address;
 
     @NotNull
-    private LocalDate patientDob;
+    private LocalDate dateOfBirth;
 
     @NotNull
-    private LocalDate patientRegisteredDate;
+    private LocalDate registeredDate;
 
-    public String getPatientName() {
-        return patientName;
+    public UUID getId() {
+        return id;
     }
 
-    public void setPatientName(String patientName) {
-        this.patientName = patientName;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
-    public String getPatientEmail() {
-        return patientEmail;
+    public @NotNull String getName() {
+        return name;
     }
 
-    public void setPatientEmail(String patientEmail) {
-        this.patientEmail = patientEmail;
+    public void setName(@NotNull String name) {
+        this.name = name;
     }
 
-    public String getPatientAddress() {
-        return patientAddress;
+    public @NotNull @Email String getEmail() {
+        return email;
     }
 
-    public void setPatientAddress(String patientAddress) {
-        this.patientAddress = patientAddress;
+    public void setEmail(@NotNull @Email String email) {
+        this.email = email;
     }
 
-    public LocalDate getPatientDob() {
-        return patientDob;
+    public @NotNull String getAddress() {
+        return address;
     }
 
-    public void setPatientDob(LocalDate patientDob) {
-        this.patientDob = patientDob;
+    public void setAddress(@NotNull String address) {
+        this.address = address;
     }
 
-    public LocalDate getPatientRegisteredDate() {
-        return patientRegisteredDate;
+    public @NotNull LocalDate getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setPatientRegisteredDate(LocalDate patientRegisteredDate) {
-        this.patientRegisteredDate = patientRegisteredDate;
+    public void setDateOfBirth(@NotNull LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
-    public UUID getPatientId() {
-        return patientId;
+    public @NotNull LocalDate getRegisteredDate() {
+        return registeredDate;
     }
 
-    public void setPatientId(UUID patientId) {
-        this.patientId = patientId;
+    public void setRegisteredDate(@NotNull LocalDate registeredDate) {
+        this.registeredDate = registeredDate;
     }
+
 }
