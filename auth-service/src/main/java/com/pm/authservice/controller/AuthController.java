@@ -15,20 +15,23 @@ import java.util.Optional;
 
 @RestController
 public class AuthController {
+    private final AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
 
     @Operation(summary = "Generate token on user login.")
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(
             @RequestBody LoginRequestDTO loginRequestDTO){
 
-        AuthService authService = new AuthService();
-
-        Optional<String> token = authService.authenticate(loginRequestDTO);
-        if(token.isEmpty()){
+        Optional<String> tokenOptional = authService.authenticate(loginRequestDTO);
+        if(tokenOptional.isEmpty()){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        String tokenValue = token.get();
-        return ResponseEntity.ok().body(new LoginResponseDTO(tokenValue));
+        String token = tokenOptional.get();
+        return ResponseEntity.ok().body(new LoginResponseDTO(token));
     }
 }
