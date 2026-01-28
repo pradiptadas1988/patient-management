@@ -1,16 +1,47 @@
+#server:
+#  port: 4004 # Gateway listens on port 4004
+#
+#spring:
+#  cloud:
+#    gateway:
+#      server:
+#        webflux:
+#          routes:
+#            # Route for /api/patients/** to patient-service
+#                    - id: patient-service-route
+#                      uri: http://patient-service:4000
+#                      predicates:
+#                        - Path=/api/patients/**
+#                      filters:
+#                        - StripPrefix=1
+#
+#                    - id: auth-service-route
+#                    - uri: http://auth-service:4003
+#                    - predicates:
+#                        - Path=/auth/**
+#                    - filters:
+#                        - StripPrefix=1
+
 server:
   port: 4004 # Gateway listens on port 4004
 
 spring:
   cloud:
     gateway:
-      server:
-        webflux:
-          routes:
-            # Route for /api/patients/** to patient-service
-                    - id: patient-service-route
-                      uri: http://patient-service:4000
-                      predicates:
-                        - Path=/api/patients/**
-                      filters:
-                        - StripPrefix=1
+      routes:
+        # http://localhost:4004/auth/** -> /auth/login
+        # http://auth-service:4003/login
+        - id: auth-service-route
+          uri: http://auth-service:4003
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
+
+        # Route for /api/patients/** to patient-service
+        - id: patient-service-route
+          uri: http://patient-service:4000
+          predicates:
+            - Path=/api/patients/**
+          filters:
+            - StripPrefix=1

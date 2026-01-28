@@ -1,12 +1,15 @@
 package com.pm.authservice.util;
 
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import io.jsonwebtoken.security.SignatureException;
 import java.util.Base64;
 import java.util.Date;
 
@@ -15,6 +18,7 @@ public class JwtUtil {
     private final Key secretKey;
 
     //need to explore more
+    // how to get secret key and store where in prod
     public JwtUtil(@Value("${jwt.secret}") String secret) {
         byte[] encodedKey = Base64.getEncoder().encode(secret
                 .getBytes(StandardCharsets.UTF_8));
@@ -29,5 +33,17 @@ public class JwtUtil {
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
                 .signWith(secretKey)
                 .compact();
+    }
+
+    public void validateToken(String token) {
+        try {
+            Jwts.parser().verifyWith((SecretKey)  secretKey)
+                    .build()
+                    .parseClaimsJws(token);
+        } catch (SignatureException e){
+            throw new JwtException("Invalid JWT signature");
+        } catch (JwtException e){
+            throw new JwtException("Invalid JWT token");
+        }
     }
 }
