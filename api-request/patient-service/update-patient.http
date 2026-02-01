@@ -1,6 +1,7 @@
 ### Updates an existing patient entity
-PUT http://localhost:4000/patients/47273849-679b-48ab-99f7-81a72f55221e
+PUT http://localhost:4004/api/patients/71aaef3c-f1e0-47d0-9f7b-f05e392c93b4
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "name": "Pradipta Das Updated",
