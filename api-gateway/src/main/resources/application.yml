@@ -10,7 +10,7 @@ spring:
             # http://localhost:4004/auth/** -> /auth/login
             # http://auth-service:4003/login
               - id: auth-service-route
-                uri: http://auth-service:4003
+                uri: http://auth-service:4005
                 predicates:
                   - Path=/auth/**
                 filters:
